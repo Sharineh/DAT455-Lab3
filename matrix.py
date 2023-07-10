@@ -1,6 +1,9 @@
 import numpy as np
 def transpose(matrix):
     
+    if matrix == [] :
+        
+        return []
     matrix_rows = len(matrix)
     
     matrix_cols = len(matrix[0])
@@ -28,6 +31,9 @@ def powers(lst,lower_pow,upper_pow):
     return power_lst
 
 def matmul(m1,m2):
+    
+    if m1 == [] or m2 == []:
+        return []
     
     m1_rows = len(m1)
     
@@ -62,7 +68,25 @@ def invert(M):
         
         return inverted_M
         
+def loadtxt(file_name):
+    
+    result = []
+    
+    with open(file_name) as file:
         
+        for line in file:
+            
+            row = []
+            
+            row.append(line .split())
+            
+            row = [float(element) for element in row[0]]
+            
+            result.append(row)
+            
+    return result
+
+            
         
                 
                 
@@ -91,7 +115,13 @@ def main():
     
     A_inv = invert(A) 
     
-    print(matmul(A,A_inv))
+    #print(matmul(A,A_inv))
+    
+    file_name = "chirps.txt"
+    
+    file_matrix = loadtxt(file_name)
+    
+    print(file_matrix)
     
     
 main()
