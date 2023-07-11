@@ -1,4 +1,4 @@
-import numpy as np
+from  numpy import *
 def transpose(matrix):
     
     if matrix == [] :
@@ -26,7 +26,7 @@ def powers(lst,lower_pow,upper_pow):
         
         for j in range(lower_pow , upper_pow+1):
             
-            power_lst[i][j-lower_pow] = lst[i] ** j
+            power_lst[i][j-lower_pow] = lst[i] ** (j-lower_pow)
             
     return power_lst
 
@@ -94,13 +94,9 @@ def loadtxt(file_name):
 
 def main():
     
-    matrix = [[7,8,9,10],
-              [11,12,13,14],
-              [15,16,17,18]]
+    power_lst = [2,3,4]
     
-    power_lst = [[1,2,3],[4,5,6],[7,8,9]]
-    
-    #print(powers(power_lst,2,4))
+    print(powers(power_lst,2,4))
     
     #print(matmul(power_lst,matrix))
     
@@ -123,6 +119,7 @@ def main():
     
     print(file_matrix)
     
-    
-main()
+if __name__== "__main__":
+        
+    main()
     
