@@ -6,81 +6,89 @@ import matplotlib.pyplot as plt
 
 def powers(lst,lower_pow,upper_pow):
     
-    np_power_lst = zeros((len(lst),(upper_pow-lower_pow+1)))
+    pow_matrix = []
     
-    for i in range(np_power_lst.shape[0]):
+    for enetery in lst :
+        
+        pow_row = [] 
         
         for j in range(lower_pow , upper_pow+1):
             
-            np_power_lst[i,j-lower_pow] = lst[i] ** (j-lower_pow)
+            pow_row.append(enetery**j)
             
-    return np_power_lst
+        pow_matrix.append(pow_row)
+        
+    return array(pow_matrix)
 
 
 def poly(a,x):
     
-    value1 = []
+    value = 0
     
     for i in range(len(a)):
         
-        value1.append(a[i] * (x**i))
+        value += a[i] * (x**i)
     
-    value1 = sum(value1)
+    return value
+
+def main():
+
+    file_name = sys.argv[1]
+
+    n = int(sys.argv[2])
+
+
+    data_mtrx = loadtxt(file_name)
+
+    X = data_mtrx[:,0]
+
+    Y = data_mtrx[:,1]
+
+    Xp  = powers(X,0,n)
+
+    Yp  = powers(Y,1,1)
+
+
+    Xpt = Xp.transpose()
+
+    a = matmul(linalg.inv(matmul(Xpt,Xp)),matmul(Xpt,Yp))
+
+    a = a[:,0]
     
-    return value1
-
-
-
-""" file_name = sys.argv[1]
-
-n = int(sys.argv[2])
- """
- 
-n = 2
-
-file_name = "chirps-modified.txt"
-
-data_mtrx = loadtxt(file_name)
-
-X = []
-
-Y = []
-
-for point in data_mtrx:
+    Y2=[]
     
-    X.append(point[0])
+    for x in X:
+        
+        Y2.append(poly(a,x))
+        
+    Y2_smooth = []
+        
+    X2 = linspace(min(X),max(X),int((max(X)-min(X))/0.2))
+
+    for x2 in X2:
+        
+        Y2_smooth.append(poly(a,x2))
+        
+    # plot with the only given data points
+    plt.figure("Polynomial regression with out interpolation")
+
+    plt.plot(X,Y,'*')
     
-    Y.append(point[1])
-
-Xp  = powers(X,0,n)
-
-Yp  = powers(Y,1,1)
-
-Xpt = Xp.transpose()
-
-a = matmul(linalg.inv(matmul(Xpt,Xp)),matmul(Xpt,Yp))
-
-a = a[:,0]
-
-Y2 = []
-
-for x in X:
+    plt.plot(X,Y2)
     
-    value = poly(a,x)
+    plt.title("Polynomial regression with the given data points")
     
-    Y2.append(value)
+    # plot with more data points 
+    plt.figure("Linear regression interpolated")
+
+    plt.plot(X,Y,'*')
     
+    plt.plot(X2,Y2_smooth)
     
+    plt.title("Polynomial regression with more data points")
+    
+    plt.show()
 
-# Different plots of the data and the regression model
-plt.figure()
-
-plt.plot(X,Y,'ro')
-
-plt.figure()
-
-plt.plot(X,Y2)
-
-plt.show()
-
-
+if __name__ == "__main__":
+    
+    main()

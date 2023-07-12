@@ -1,4 +1,6 @@
 from  numpy import *
+
+# Tanspose a given matirx
 def transpose(matrix):
     
     if matrix == [] :
@@ -18,18 +20,24 @@ def transpose(matrix):
             
     return matrix_transpose
 
+# Compute the powers of a given lst from lower_pow to upper_pow included
 def powers(lst,lower_pow,upper_pow):
     
-    power_lst = [[0] * (upper_pow-lower_pow+1) for _ in range(len(lst))]
+    pow_matrix = []
     
-    for i in range(len(lst)):
+    for enetery in lst :
+        
+        pow_row = [] 
         
         for j in range(lower_pow , upper_pow+1):
             
-            power_lst[i][j-lower_pow] = lst[i] ** (j-lower_pow)
+            pow_row.append(enetery**j)
             
-    return power_lst
+        pow_matrix.append(pow_row)
+        
+    return pow_matrix
 
+# Return the result of multiplying two matrices given that the dimenssions are correct
 def matmul(m1,m2):
     
     if m1 == [] or m2 == []:
@@ -54,20 +62,18 @@ def matmul(m1,m2):
                 
     return result
 
+# Invert a 2x2 matrix
 def invert(M):
     
-    if len(M) != 2 and len(M[0]) != 2:
-        
-        return "The input should be a 2x2 matrix.\n"
-    
-    else:
         det_m = M[0][0] * M[1][1] - M[0][1] * M[1][0]
         
         inverted_M = [[M[1][1]/det_m, -M[0][1]/det_m],
                       [-M[1][0]/det_m, M[0][0]/det_m]]
         
         return inverted_M
-        
+
+# Load txt from file_name and return it as a matrix
+
 def loadtxt(file_name):
     
     result = []
@@ -86,40 +92,4 @@ def loadtxt(file_name):
             
     return result
 
-            
-        
-                
-                
-    
-
-def main():
-    
-    power_lst = [2,3,4]
-    
-    print(powers(power_lst,2,4))
-    
-    #print(matmul(power_lst,matrix))
-    
-    I3 =[[1,0,0],
-         [0,1,0],
-         [0,0,1]]
-    
-    #print(matmul(power_lst,I3))
-    
-    A = [[1,2],
-         [3,4]]
-    
-    A_inv = invert(A) 
-    
-    #print(matmul(A,A_inv))
-    
-    file_name = "chirps.txt"
-    
-    file_matrix = loadtxt(file_name)
-    
-    print(file_matrix)
-    
-if __name__== "__main__":
-        
-    main()
     
